@@ -9,3 +9,4 @@ public class StructEnggApplication {
 		SpringApplication.run(StructEnggApplication.class, args);
 	}
 }
+//-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true
