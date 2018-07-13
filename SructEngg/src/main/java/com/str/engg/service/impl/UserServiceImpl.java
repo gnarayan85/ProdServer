@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public User save(User user) {
 		User newUser = new User();
 		newUser.setUsername(user.getUsername());
-		//newUser.setPassword(bcryptEncoder.encode("gopal"));
+		newUser.setPassword(new BCryptPasswordEncoder().encode("password"));
 		newUser.setAge(user.getAge());
 		newUser.setSalary(user.getSalary());
 		return userDao.save(newUser);
