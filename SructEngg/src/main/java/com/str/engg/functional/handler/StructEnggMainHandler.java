@@ -2,6 +2,8 @@ package com.str.engg.functional.handler;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -27,12 +29,13 @@ public class StructEnggMainHandler {
 	/**
 	 * GET ALL Graphs
 	 */
-    public Mono<ServerResponse> getAll(ServerRequest request) {
+    public List<Graph> getAll() {
     	// fetch all candidates from repository
-    	Flux<Graph> candidates = structEnggRepository.getAllGraphs();
-    	
+    	Flux<Graph> graphs = structEnggRepository.getAllGraphs();
+    	List<Graph> graphList = graphs.collectList().block();
     	// build response
-		return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(candidates, Graph.class);
+		//return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(candidates, Graph.class);
+    	return graphList;
     }
     
     /**
@@ -57,9 +60,8 @@ public class StructEnggMainHandler {
     /**
      * POST a Graph
      */
-    public Mono<ServerResponse> postGraph(ServerRequest request) {
-    	Mono<Graph> candidate = request.bodyToMono(Graph.class);
-        return ServerResponse.ok().build(structEnggRepository.saveGraph(candidate));
+    public Mono<ServerResponse> postGraph(Mono<Graph> graph) {
+        return ServerResponse.ok().build(structEnggRepository.saveGraph(graph));
     }
     
     

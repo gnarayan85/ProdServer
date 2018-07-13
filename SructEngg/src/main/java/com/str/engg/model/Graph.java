@@ -1,5 +1,7 @@
 package com.str.engg.model;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,18 +11,16 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @Document
-public class Graph {
+public class Graph implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private @Id long graphId;
 	private String createdUser;
 	private String graphCode;
 	
 	
-	
-	
-	public Graph(long graphId){
-		this.graphId = graphId;
-	}
-
 	public long getGraphId() {
 		return graphId;
 	}
