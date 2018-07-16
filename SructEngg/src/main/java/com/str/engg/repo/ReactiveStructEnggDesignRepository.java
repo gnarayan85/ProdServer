@@ -4,12 +4,10 @@ package com.str.engg.repo;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.str.engg.model.Graph;
-
-import reactor.core.publisher.Flux;
+import com.str.engg.design.model.Project;
 
 @Repository
-public interface ReactiveStructEnggRepository extends ReactiveMongoRepository<Graph, Long> {
+public interface ReactiveStructEnggDesignRepository extends ReactiveMongoRepository<Project, Integer> {
 
 	/**
 	 * Derived query selecting by {@code lastname}.
@@ -17,7 +15,7 @@ public interface ReactiveStructEnggRepository extends ReactiveMongoRepository<Gr
 	 * @param lastname
 	 * @return
 	 */
-	Flux<Graph> findByGraphCode(String graphCode);
+//	Flux<pRO> findByGraphCode(String graphCode);
 
 	/**
 	 * String query selecting one entity.
