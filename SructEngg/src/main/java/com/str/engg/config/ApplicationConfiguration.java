@@ -22,7 +22,8 @@ import com.mongodb.reactivestreams.client.MongoClients;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableReactiveMongoRepositories(basePackages = {"com.str.engg.repo", "com.str.engg.model"})
+@EnableReactiveMongoRepositories(basePackages = {"com.str.engg.repo", "com.str.engg.model"
+		, "com.str.engg.design.model"})
 @EnableAutoConfiguration(exclude = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class, DataSourceAutoConfiguration.class })
 @RequiredArgsConstructor
 @EnableJpaRepositories(basePackages = {"com.str.engg.dao"})
@@ -47,7 +48,7 @@ class ApplicationConfiguration extends AbstractReactiveMongoConfiguration {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/test");
         dataSource.setUsername("root");
-        dataSource.setPassword("sms2012");
+        dataSource.setPassword("root");
  
         return dataSource;
     }

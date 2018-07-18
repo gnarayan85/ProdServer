@@ -1,5 +1,6 @@
 package com.str.engg.design.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -7,10 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-@Document(collection = "Project")
+
+@Document
 @Data
 @RequiredArgsConstructor
-public class Project{
+public class Project implements Serializable{
 	
       @Id	
 	  int projectNumber;

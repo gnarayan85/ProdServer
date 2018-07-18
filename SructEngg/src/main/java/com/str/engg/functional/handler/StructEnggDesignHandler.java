@@ -24,8 +24,8 @@ public class StructEnggDesignHandler {
      */
     public Mono<ServerResponse> postProject(Mono<Project> project) {
     	
-    	projectRepository.postProject(project);
-        return ServerResponse.ok().build();
+    	
+        return ServerResponse.ok().build(projectRepository.postProject(project));
     }
     
     
