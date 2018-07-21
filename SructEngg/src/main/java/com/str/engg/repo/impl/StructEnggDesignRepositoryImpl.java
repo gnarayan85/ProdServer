@@ -7,6 +7,7 @@ import com.str.engg.design.model.Project;
 import com.str.engg.repo.ProjectRepository;
 import com.str.engg.repo.ReactiveStructEnggDesignRepository;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -27,6 +28,12 @@ public class StructEnggDesignRepositoryImpl implements ProjectRepository{
         });
 		
 		return projecthMono.then();
+	}
+
+	@Override
+	public Flux<Project> getAllProjects() {
+		
+		return reactiveStructEnggDesignRepository.findAll();
 	}
 
 

@@ -3,6 +3,7 @@ package com.str.engg.design.model;
 import java.io.Serializable;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,7 +15,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Project implements Serializable{
 	
-      @Id	
+	
+      @Id  ObjectId databaseId;
 	  int projectNumber;
       String projectName;
       String projectDescrption;
@@ -72,6 +74,12 @@ public class Project implements Serializable{
 	}
 	public void setColumnSectionList(List<ColumnSection> columnSectionList) {
 		this.columnSectionList = columnSectionList;
+	}
+	public ObjectId getDatabaseId() {
+		return databaseId;
+	}
+	public void setDatabaseId(ObjectId databaseId) {
+		this.databaseId = databaseId;
 	}
       
       

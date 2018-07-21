@@ -22,11 +22,11 @@ import com.mongodb.reactivestreams.client.MongoClients;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableReactiveMongoRepositories(basePackages = {"com.str.engg.repo", "com.str.engg.model"
-		, "com.str.engg.design.model"})
 @EnableAutoConfiguration(exclude = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class, DataSourceAutoConfiguration.class })
 @RequiredArgsConstructor
 @EnableJpaRepositories(basePackages = {"com.str.engg.dao"})
+@EnableReactiveMongoRepositories(basePackages = {"com.str.engg.repo", "com.str.engg.model"
+		, "com.str.engg.design.model"})
 class ApplicationConfiguration extends AbstractReactiveMongoConfiguration {
 
 	@Bean

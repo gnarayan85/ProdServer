@@ -29,11 +29,7 @@ public class GraphController {
 
 	 @RequestMapping(value= "/api/graph", method = RequestMethod.GET)
 	public List<Graph> list() {
-		/*return 		
-		ResponseEntity
-        .ok()
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(graphHandler.getAll());*/
+		
 		 return graphHandler.getAll();
 	}
 }

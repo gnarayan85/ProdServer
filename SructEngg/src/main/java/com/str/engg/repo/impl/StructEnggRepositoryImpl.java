@@ -39,8 +39,10 @@ public class StructEnggRepositoryImpl implements StructEnggRepository{
 	public Mono<Void> saveGraph(Mono<Graph> monoGraph) {
 		Mono<Graph> GraphMono =  monoGraph.doOnNext(Graph -> {
 			reactiveStructEnggRepository.insert(Graph).subscribe();
+			template.save(Graph);
             System.out.println("########### POST:" + Graph);
         });
+		reactiveStructEnggRepository.insert(monoGraph.block());
 		
 		return GraphMono.then();
 	}
