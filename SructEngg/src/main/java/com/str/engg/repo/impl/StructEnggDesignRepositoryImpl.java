@@ -36,7 +36,11 @@ public class StructEnggDesignRepositoryImpl implements ProjectRepository{
 		return reactiveStructEnggDesignRepository.findAll();
 	}
 
-
+	@Override
+	public Mono<Project> getProjectByProjectNumber(int projectNumber) {
+		
+		return reactiveStructEnggDesignRepository.findByProjectNumber(projectNumber);
+	}
 
 
 	

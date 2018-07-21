@@ -13,4 +13,5 @@ public interface ProjectRepository {
 
 	public Mono<Void> postProject(Mono<Project> project);
 	public Flux<Project> getAllProjects();
+	public Mono<Project> getProjectByProjectNumber(int projectNumber);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.str.engg.design.model.Project;
 import com.str.engg.design.service.AnalysisService;
 import com.str.engg.functional.handler.StructEnggDesignHandler;
-import com.str.engg.model.Graph;
 
 import reactor.core.publisher.Mono;
 
@@ -39,4 +39,11 @@ public class ProjectController {
 			
 			 return designHandler.getAll();
 		}
+	 
+	 @RequestMapping(value= "/api/project/{projectNumber}", method = RequestMethod.GET)
+		public Project getProjectByProjectNumber(@PathVariable int projectNumber) {
+			
+			 return designHandler.getProjectByProjectNumber(projectNumber);
+		}
+	 
 }

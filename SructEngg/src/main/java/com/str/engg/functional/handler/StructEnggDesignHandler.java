@@ -38,4 +38,8 @@ public class StructEnggDesignHandler {
     	List<Project> projectList = projects.collectList().block();
     	return projectList;
     }
+    
+    public Project  getProjectByProjectNumber(int projectNumber){
+    	return projectRepository.getProjectByProjectNumber(projectNumber).block();
+    }
 }
