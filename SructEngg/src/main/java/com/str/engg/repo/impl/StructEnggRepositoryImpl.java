@@ -1,10 +1,10 @@
 package com.str.engg.repo.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.str.engg.model.Graph;
+import com.str.engg.mongorepo.StructEnggMongoRepository;
 import com.str.engg.repo.ReactiveStructEnggRepository;
 import com.str.engg.repo.StructEnggRepository;
 
@@ -19,7 +19,7 @@ public class StructEnggRepositoryImpl implements StructEnggRepository{
 	@Autowired
 	private final ReactiveStructEnggRepository reactiveStructEnggRepository;
 	
-	@Autowired ReactiveMongoTemplate template;
+	@Autowired StructEnggMongoRepository repo;
 	
 	public StructEnggRepositoryImpl(ReactiveStructEnggRepository reactiveGraphRepository) {
 		this.reactiveStructEnggRepository = reactiveGraphRepository;
@@ -36,15 +36,12 @@ public class StructEnggRepositoryImpl implements StructEnggRepository{
 	}
 
 	@Override
-	public Mono<Void> saveGraph(Mono<Graph> monoGraph) {
-		Mono<Graph> GraphMono =  monoGraph.doOnNext(Graph -> {
+	public void saveGraph(Graph graph) {
+		/*Mono<Graph> GraphMono =  monoGraph.doOnNext(Graph -> {
 			reactiveStructEnggRepository.insert(Graph).subscribe();
-			template.save(Graph);
             System.out.println("########### POST:" + Graph);
-        });
-		reactiveStructEnggRepository.insert(monoGraph.block());
-		
-		return GraphMono.then();
+        });*/
+		repo.insert(graph);
 	}
 	
 	@Override

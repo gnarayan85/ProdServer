@@ -23,8 +23,7 @@ public class GraphController {
 	
 	 @RequestMapping(value= "/api/graph/post", method = RequestMethod.POST)
 	void create(@RequestBody Graph graph) {
-		 Mono<Graph> monoGraph = Mono.just(graph);
-		graphHandler.postGraph(monoGraph);
+		graphHandler.postGraph(graph);
 	}
 
 	 @RequestMapping(value= "/api/graph", method = RequestMethod.GET)

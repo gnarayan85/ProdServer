@@ -11,8 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.config.AbstractReactiveMongoConfiguration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.mapping.event.LoggingEventListener;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -61,5 +63,5 @@ class ApplicationConfiguration extends AbstractReactiveMongoConfiguration {
 	@Bean
 	  public ReactiveMongoTemplate reactiveMongoTemplate() {
 	    return new ReactiveMongoTemplate(reactiveMongoClient(), getDatabaseName());
-	  }
+	  }	
 }

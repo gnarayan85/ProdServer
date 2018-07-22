@@ -60,8 +60,8 @@ public class StructEnggMainHandler {
     /**
      * POST a Graph
      */
-    public Mono<ServerResponse> postGraph(Mono<Graph> graph) {
-        return ServerResponse.ok().build(structEnggRepository.saveGraph(graph));
+    public void postGraph(Graph graph) {
+        structEnggRepository.saveGraph(graph);
     }
     
     

@@ -22,9 +22,7 @@ public class User  implements Serializable{
     @JsonIgnore
     private String password;
     @Column
-    private long salary;
-    @Column
-    private int age;
+    private String companyName;
 
     public long getId() {
         return id;
@@ -50,19 +48,13 @@ public class User  implements Serializable{
         this.password = password;
     }
 
-    public long getSalary() {
-        return salary;
-    }
+	public String getCompanyName() {
+		return companyName;
+	}
 
-    public void setSalary(long salary) {
-        this.salary = salary;
-    }
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
+   
 }
