@@ -51,14 +51,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	
-	
+	@Autowired
+	 BCryptPasswordEncoder encoder;
 	
 
 	@Override
     public User save(User user) {
 		User newUser = new User();
 		newUser.setUsername(user.getUsername());
-		newUser.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		newUser.setPassword(encoder.encode(user.getPassword()));
 		newUser.setCompanyName(user.getCompanyName());
 		return userDao.save(newUser);
     }
