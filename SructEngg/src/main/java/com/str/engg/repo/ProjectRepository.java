@@ -11,7 +11,8 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface ProjectRepository {
 
-	public Mono<Void> postProject(Mono<Project> project);
+	public Project postProject(Project project);
 	public Flux<Project> getAllProjects();
 	public Mono<Project> getProjectByProjectNumber(int projectNumber);
+	public void deleteProject(int ProjectNumber);
 }

@@ -26,11 +26,14 @@ public class StructEnggDesignHandler {
     /**
      * POST a Project
      */
-    public Mono<ServerResponse> postProject(Mono<Project> project) {
-    	
-    	
-        return ServerResponse.ok().build(projectRepository.postProject(project));
+    public Project postProject(Project project) {
+        return projectRepository.postProject(project);
     }
+    
+    public void deleteProject(int ProjectNumber){
+    	projectRepository.deleteProject(ProjectNumber);
+    }
+    
     
     public List<Project> getAll() {
     	// fetch all candidates from repository
