@@ -63,13 +63,32 @@ public class ProjectController {
 	 @RequestMapping(value= "/api/project/subframe/{projectNumber}", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 		Project createSubFrame(@RequestBody SubFrame subFrame, @PathVariable int projectNumber) {
 		 Project analysedPproject =  designHandler.getProjectByProjectNumber(projectNumber);
+		 int frameId = 1;
 		 if(analysedPproject.getSubframeList() == null) {
 			 analysedPproject.setSubframeList(new ArrayList<SubFrame>());
-			 
+		 } else {
+			 for(SubFrame subFrame1 : analysedPproject.getSubframeList()) {
+				 if(subFrame1.getSubFrameId() >= frameId) {
+					 frameId = subFrame1.getSubFrameId() + 1;
+				 }
+			 }
 		 }
-		 subFrame.setSubframeName("Frame" + (analysedPproject.getSubframeList().size()+1));
-		 subFrame.setSubFrameId((analysedPproject.getSubframeList().size()+1));
+		 subFrame.setSubframeName("Frame" + frameId);
+		 subFrame.setSubFrameId(frameId);
 		 analysedPproject.getSubframeList().add(subFrame);
+		 designHandler.postProject(analysedPproject);
+		return analysedPproject;
+		}
+	 
+	 @RequestMapping(value= "/api/project/subframe/delete/{projectNumber}/{frameId}", method = RequestMethod.GET)
+		Project deleteSubFrame(@PathVariable int projectNumber, @PathVariable int frameId) {
+		 Project analysedPproject =  designHandler.getProjectByProjectNumber(projectNumber);
+		
+		 for(SubFrame subFrame : analysedPproject.getSubframeList()) {
+			 if(subFrame.getSubFrameId() == frameId) {
+				 analysedPproject.getSubframeList().remove(subFrame);
+			 }
+		 }
 		 designHandler.postProject(analysedPproject);
 		return analysedPproject;
 		}
