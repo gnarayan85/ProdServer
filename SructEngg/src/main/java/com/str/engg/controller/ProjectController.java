@@ -1,5 +1,6 @@
 package com.str.engg.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.str.engg.design.model.Project;
+import com.str.engg.design.model.SubFrame;
 import com.str.engg.design.service.AnalysisService;
 import com.str.engg.functional.handler.StructEnggDesignHandler;
 
@@ -55,6 +57,21 @@ public class ProjectController {
 		public void deleteProject(@PathVariable int projectNumber) {
 			
 			  designHandler.deleteProject(projectNumber);
+		}
+	 
+	 
+	 @RequestMapping(value= "/api/project/subframe/{projectNumber}", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+		Project createSubFrame(@RequestBody SubFrame subFrame, @PathVariable int projectNumber) {
+		 Project analysedPproject =  designHandler.getProjectByProjectNumber(projectNumber);
+		 if(analysedPproject.getSubframeList() == null) {
+			 analysedPproject.setSubframeList(new ArrayList<SubFrame>());
+			 
+		 }
+		 subFrame.setSubframeName("Frame" + (analysedPproject.getSubframeList().size()+1));
+		 subFrame.setSubFrameId((analysedPproject.getSubframeList().size()+1));
+		 analysedPproject.getSubframeList().add(subFrame);
+		 designHandler.postProject(analysedPproject);
+		return analysedPproject;
 		}
 	 
 }
