@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.str.engg.design.model.BeamSection;
 import com.str.engg.design.model.Project;
 import com.str.engg.design.model.SubFrame;
 import com.str.engg.design.service.AnalysisService;
@@ -87,6 +88,40 @@ public class ProjectController {
 		 for(SubFrame subFrame : analysedPproject.getSubframeList()) {
 			 if(subFrame.getSubFrameId() == frameId) {
 				 analysedPproject.getSubframeList().remove(subFrame);
+			 }
+		 }
+		 designHandler.postProject(analysedPproject);
+		return analysedPproject;
+		}
+	 
+	 
+	 @RequestMapping(value= "/api/project/beamsection/{projectNumber}", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+		Project createBeamSection(@RequestBody BeamSection beamSection, @PathVariable int projectNumber) {
+		 Project analysedPproject =  designHandler.getProjectByProjectNumber(projectNumber);
+		 int beamsectionId = 1;
+		 if(analysedPproject.getBeamSectionList() == null) {
+			 analysedPproject.setBeamSectionList(new ArrayList<BeamSection>());
+		 } else {
+			 for(BeamSection beamSection1 : analysedPproject.getBeamSectionList()) {
+				 if(beamSection1.getBeamSectionId() >= beamsectionId) {
+					 beamsectionId = beamSection1.getBeamSectionId() + 1;
+				 }
+			 }
+		 }
+		 beamSection.setBeamName("BeamSection" + beamsectionId);
+		 beamSection.setBeamSectionId(beamsectionId);
+		 analysedPproject.getBeamSectionList().add(beamSection);
+		 designHandler.postProject(analysedPproject);
+		return analysedPproject;
+		}
+	 
+	 @RequestMapping(value= "/api/project/beamsection/delete/{projectNumber}/{beamSectionId}", method = RequestMethod.GET)
+		Project deleteBeamSection(@PathVariable int projectNumber, @PathVariable int beamSectionId) {
+		 Project analysedPproject =  designHandler.getProjectByProjectNumber(projectNumber);
+		
+		 for(BeamSection beamSection : analysedPproject.getBeamSectionList()) {
+			 if(beamSection.getBeamSectionId() == beamSectionId) {
+				 analysedPproject.getBeamSectionList().remove(beamSection);
 			 }
 		 }
 		 designHandler.postProject(analysedPproject);

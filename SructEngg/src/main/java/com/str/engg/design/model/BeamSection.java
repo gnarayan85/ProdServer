@@ -9,6 +9,7 @@ public class BeamSection {
 	int beamSectionId;
 	List<SectionPhase> phaseList;
 	List<BeamSectionPropertyAtStage> beamSectionPropertyAtStageList;
+	String beamName;
 	public int getBeamSectionId() {
 		return beamSectionId;
 	}
@@ -26,6 +27,12 @@ public class BeamSection {
 	}
 	public void setBeamSectionPropertyAtStageList(List<BeamSectionPropertyAtStage> beamSectionPropertyAtStageList) {
 		this.beamSectionPropertyAtStageList = beamSectionPropertyAtStageList;
+	}
+	public String getBeamName() {
+		return beamName;
+	}
+	public void setBeamName(String beamName) {
+		this.beamName = beamName;
 	}
 
 
