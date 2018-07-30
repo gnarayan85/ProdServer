@@ -98,16 +98,28 @@ public class ProjectController {
 	 @RequestMapping(value= "/api/project/beamsection/{projectNumber}", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 		Project createBeamSection(@RequestBody BeamSection beamSection, @PathVariable int projectNumber) {
 		 Project analysedPproject =  designHandler.getProjectByProjectNumber(projectNumber);
+		 
 		 int beamsectionId = 1;
-		 if(analysedPproject.getBeamSectionList() == null) {
-			 analysedPproject.setBeamSectionList(new ArrayList<BeamSection>());
-		 } else {
+		 if(beamSection.getBeamSectionId() > 0) {
 			 for(BeamSection beamSection1 : analysedPproject.getBeamSectionList()) {
-				 if(beamSection1.getBeamSectionId() >= beamsectionId) {
-					 beamsectionId = beamSection1.getBeamSectionId() + 1;
+				 if(beamSection.getBeamSectionId() == beamSection1.getBeamSectionId()) {
+					 analysedPproject.getBeamSectionList().remove(beamSection1);
+					 break;
+				 }
+			 } 
+			 beamsectionId = beamSection.getBeamSectionId();
+		 } else {
+			 if(analysedPproject.getBeamSectionList() == null) {
+				 analysedPproject.setBeamSectionList(new ArrayList<BeamSection>());
+			 } else {
+				 for(BeamSection beamSection1 : analysedPproject.getBeamSectionList()) {
+					 if(beamSection1.getBeamSectionId() >= beamsectionId) {
+						 beamsectionId = beamSection1.getBeamSectionId() + 1;
+					 }
 				 }
 			 }
 		 }
+		
 		 beamSection.setBeamName("BeamSection" + beamsectionId);
 		 beamSection.setBeamSectionId(beamsectionId);
 		 analysedPproject.getBeamSectionList().add(beamSection);
