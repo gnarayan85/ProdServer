@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.str.engg.dao.UserDao;
 import com.str.engg.model.User;
+import com.str.engg.mongorepo.UserMongoRepository;
 import com.str.engg.service.UserService;
 
 
@@ -22,11 +22,10 @@ import com.str.engg.service.UserService;
 public class UserServiceImpl implements UserDetailsService, UserService {
 	
 	@Autowired
-	@Qualifier("userDao")
-	private UserDao userDao;
+	private UserMongoRepository userRepo;
 
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		User user = userDao.findByUsername(userId);
+		User user = userRepo.findByUsername(userId);
 		if(user == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
@@ -39,7 +38,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	public List<User> findAll() {
 		List<User> list = new ArrayList<>();
-		userDao.findAll().iterator().forEachRemaining(list::add);
+		userRepo.findAll().iterator().forEachRemaining(list::add);
 		return list;
 	}
 
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public User findOne(String username) {
-		return userDao.findByUsername(username);
+		return userRepo.findByUsername(username);
 	}
 
 	
@@ -61,6 +60,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		newUser.setUsername(user.getUsername());
 		newUser.setPassword(encoder.encode(user.getPassword()));
 		newUser.setCompanyName(user.getCompanyName());
-		return userDao.save(newUser);
+		newUser.setId(user.getId());
+		return userRepo.save(newUser);
     }
 }

@@ -26,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableAutoConfiguration(exclude = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class, DataSourceAutoConfiguration.class })
 @RequiredArgsConstructor
-@EnableJpaRepositories(basePackages = {"com.str.engg.dao"})
 @EnableReactiveMongoRepositories(basePackages = {"com.str.engg.repo", "com.str.engg.model"
 		, "com.str.engg.design.model"})
 class ApplicationConfiguration extends AbstractReactiveMongoConfiguration {
@@ -41,19 +40,6 @@ class ApplicationConfiguration extends AbstractReactiveMongoConfiguration {
 	public MongoClient reactiveMongoClient() {
 		return MongoClients.create(String.format("mongodb://localhost:%d", 27017));
 	}
-	
-	@Bean
-    public DataSource productDataSource() {
-  
-        DriverManagerDataSource dataSource
-          = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/test");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
- 
-        return dataSource;
-    }
 
 	@Override
 	protected String getDatabaseName() {

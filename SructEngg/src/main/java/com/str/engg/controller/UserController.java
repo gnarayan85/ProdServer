@@ -1,5 +1,7 @@
 package com.str.engg.controller;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,8 @@ public class UserController {
     @CrossOrigin 
     @RequestMapping(value="/signup", method = RequestMethod.POST)
     public User saveUser(@RequestBody User user){
+    	Random ran = new Random();
+    	user.setId(ran.nextLong());
     	return userService.save(user);
     }
 
