@@ -35,17 +35,20 @@ public class AuthenticationController {
     @CrossOrigin
     @RequestMapping(value = "/generate-token", method = RequestMethod.POST)
     public ResponseEntity<?> register(@RequestBody LoginUser loginUser) throws AuthenticationException {
-
-        final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginUser.getUsername(),
-                        loginUser.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        final User user = userService.findOne(loginUser.getUsername());
-        final String token = jwtTokenUtil.generateToken(user);
-        return ResponseEntity.ok(new AuthToken(token));
+    	try {
+	        final Authentication authentication = authenticationManager.authenticate(
+	                new UsernamePasswordAuthenticationToken(
+	                        loginUser.getUsername(),
+	                        loginUser.getPassword()
+	                )
+	        );
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	        final User user = userService.findOne(loginUser.getUsername());
+	        final String token = jwtTokenUtil.generateToken(user);
+	        return ResponseEntity.ok(new AuthToken(token));
+    	} catch(Exception e) {
+    		return  ResponseEntity.badRequest().body("Invliad username or password.");
+    	}
     }
 
 }

@@ -9,4 +9,6 @@ public interface UserService {
     User save(User user);
     List<User> findAll();
     User findOne(String username);
+
+    User activateUSer(long code);
 }
