@@ -1,11 +1,13 @@
 package com.str.engg.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import com.str.engg.design.model.Project;
 import com.str.engg.design.model.SubFrame;
 import com.str.engg.design.service.AnalysisService;
 import com.str.engg.functional.handler.StructEnggDesignHandler;
+import com.str.engg.model.User;
+import com.str.engg.service.UserService;
 
 @RestController
 public class ProjectController {
@@ -26,6 +30,9 @@ public class ProjectController {
 	
 	@Autowired
 	AnalysisService analysisService;
+	
+	@Autowired
+	UserService userService;
 	
 	 @RequestMapping(value= "/api/project/post", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 		Project create(@RequestBody Project project) {
@@ -37,8 +44,20 @@ public class ProjectController {
 	 @RequestMapping(value= "/api/project/add", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 		Project createNew(@RequestBody Project project) {
 		 project.setProjectNumber(new Random().nextInt(99999));
+		 project.setCreatedDate(new Date());
+		 project.setCreatedUserName(SecurityContextHolder.getContext().getAuthentication().getName());
+		 project.setProjectUsers(new ArrayList<User>());
+		 project.getProjectUsers().add(userService.findOne(SecurityContextHolder.getContext().getAuthentication().getName()));
 		 designHandler.postProject(project);
-		return project;
+		 return project;
+		}
+	 
+	 @RequestMapping(value= "/api/project/adduser/{projectNumber}/{userName}", method = RequestMethod.GET)
+		Project addUserToProject(@PathVariable int projectNumber, @PathVariable String userName) {
+		 Project project =  designHandler.getProjectByProjectNumber(projectNumber);
+		 project.getProjectUsers().add(userService.findOne(userName));
+		 designHandler.postProject(project);
+		 return project;
 		}
 	 
 	 
@@ -76,6 +95,8 @@ public class ProjectController {
 		 }
 		 subFrame.setSubframeName("Frame" + frameId);
 		 subFrame.setSubFrameId(frameId);
+		 subFrame.setCreatedDate(new Date());
+		 subFrame.setCreatedUserName(SecurityContextHolder.getContext().getAuthentication().getName());
 		 analysedPproject.getSubframeList().add(subFrame);
 		 designHandler.postProject(analysedPproject);
 		return analysedPproject;
@@ -95,6 +116,30 @@ public class ProjectController {
 		}
 	 
 	 
+	 
+	 @RequestMapping(value= "/api/adduser/beamsection/{projectNumber}/{beamSectionId}", method = RequestMethod.GET)
+     boolean addUserBeamSection(@PathVariable int projectNumber, @PathVariable int beamSectionId) {
+		 Project analysedPproject =  designHandler.getProjectByProjectNumber(projectNumber);
+		 for(BeamSection beamSection1 : analysedPproject.getBeamSectionList()) {
+			 if(beamSectionId == beamSection1.getBeamSectionId()) {
+				 if(beamSection1.getLockedUsername() == null) {
+					 beamSection1.setLockedTime(new Date());
+					 beamSection1.setLockedUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+					 return true;
+				 } else {
+					 if(beamSection1.getLockedUsername().equals(SecurityContextHolder.getContext().getAuthentication().getName())) {
+						 return true;
+					 } else {
+						 return false;
+					 }
+					 
+				 }
+			 }
+		 } 
+		 return false;
+	 }
+	 
+	 
 	 @RequestMapping(value= "/api/project/beamsection/{projectNumber}", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 		Project createBeamSection(@RequestBody BeamSection beamSection, @PathVariable int projectNumber) {
 		 Project analysedPproject =  designHandler.getProjectByProjectNumber(projectNumber);
@@ -103,6 +148,8 @@ public class ProjectController {
 		 if(beamSection.getBeamSectionId() > 0) {
 			 for(BeamSection beamSection1 : analysedPproject.getBeamSectionList()) {
 				 if(beamSection.getBeamSectionId() == beamSection1.getBeamSectionId()) {
+					 beamSection.setCreatedUserName(beamSection1.getCreatedUserName());
+					 beamSection.setCreatedDate(beamSection1.getCreatedDate());
 					 analysedPproject.getBeamSectionList().remove(beamSection1);
 					 break;
 				 }
@@ -118,10 +165,14 @@ public class ProjectController {
 					 }
 				 }
 			 }
+			 beamSection.setCreatedDate(new Date());
+			 beamSection.setCreatedUserName(SecurityContextHolder.getContext().getAuthentication().getName());
 		 }
 		
 		 beamSection.setBeamName("BeamSection" + beamsectionId);
 		 beamSection.setBeamSectionId(beamsectionId);
+		 beamSection.setLockedUsername(null);
+		 beamSection.setLockedTime(null);
 		 analysedPproject.getBeamSectionList().add(beamSection);
 		 designHandler.postProject(analysedPproject);
 		return analysedPproject;

@@ -1,5 +1,6 @@
 package com.str.engg.design.model;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -14,6 +15,10 @@ public class SubFrame {
     List<Column>bottomColumnList;
     List<Column>topColumnList;
     List<BeamAtStage>beamAtStageList;
+    String createdUserName;
+    Date createdDate;
+    String lockedUsername;
+    Date lockedTime;
      
     
     
@@ -65,6 +70,30 @@ public class SubFrame {
 	}
 	public void setTopColumnList(List<Column> topColumnList) {
 		this.topColumnList = topColumnList;
+	}
+	public String getCreatedUserName() {
+		return createdUserName;
+	}
+	public void setCreatedUserName(String createdUserName) {
+		this.createdUserName = createdUserName;
+	}
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+	public String getLockedUsername() {
+		return lockedUsername;
+	}
+	public void setLockedUsername(String lockedUsername) {
+		this.lockedUsername = lockedUsername;
+	}
+	public Date getLockedTime() {
+		return lockedTime;
+	}
+	public void setLockedTime(Date lockedTime) {
+		this.lockedTime = lockedTime;
 	}
 	
 	
