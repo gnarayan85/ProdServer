@@ -185,6 +185,7 @@ public class ProjectController {
 		 for(BeamSection beamSection : analysedPproject.getBeamSectionList()) {
 			 if(beamSection.getBeamSectionId() == beamSectionId) {
 				 analysedPproject.getBeamSectionList().remove(beamSection);
+				 break;
 			 }
 		 }
 		 designHandler.postProject(analysedPproject);
